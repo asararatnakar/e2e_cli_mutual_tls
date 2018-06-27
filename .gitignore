@@ -1,0 +1,6 @@
+bin/
+channel-artifacts/*.tx
+channel-artifacts/*.block
+crypto-config/*
+# vscode settings
+.vscode
