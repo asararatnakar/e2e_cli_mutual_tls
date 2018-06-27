@@ -25,21 +25,17 @@ printHelp() {
 
 dockerFabricPull() {
   local FABRIC_TAG=$1
-  for IMAGES in peer orderer ccenv tools ca; do
-      echo "==> FABRIC IMAGE: $IMAGES"
+  for IMAGE in peer orderer ccenv tools ca; do
+      echo "==> FABRIC IMAGE: $IMAGE"
       echo
-      docker pull hyperledger/fabric-$IMAGES:$FABRIC_TAG
-      docker tag hyperledger/fabric-$IMAGES:$FABRIC_TAG hyperledger/fabric-$IMAGES
-  done
-}
-
-dockerThirdPartyImagesPull() {
-  local THIRDPARTY_TAG=$1
-  for IMAGES in couchdb kafka zookeeper; do
-      echo "==> THIRDPARTY DOCKER IMAGE: $IMAGES"
-      echo
-      docker pull hyperledger/fabric-$IMAGES:$THIRDPARTY_TAG
-      docker tag hyperledger/fabric-$IMAGES:$THIRDPARTY_TAG hyperledger/fabric-$IMAGES
+      if [ "$IMAGE" = "couchdb" ]; then
+        echo "==> THIRDPARTY DOCKER IMAGE: $IMAGES"
+        echo
+        docker pull hyperledger/fabric-$IMAGES:$THIRDPARTY_TAG
+        docker tag hyperledger/fabric-$IMAGES:$THIRDPARTY_TAG hyperledger/fabric-$IMAGES
+      fi
+      docker pull hyperledger/fabric-$IMAGE:$FABRIC_TAG
+      docker tag hyperledger/fabric-$IMAGE:$FABRIC_TAG hyperledger/fabric-$IMAGE
   done
 }
 
@@ -146,5 +142,3 @@ echo "===> Installing Hyperledger Fabric binaries"
 binariesInstall
 echo "===> Pulling fabric Images"
 dockerFabricPull ${FABRIC_TAG}
-echo "===> Pulling thirdparty docker images"
-dockerThirdPartyImagesPull ${THIRDPARTY_TAG}
