@@ -15,13 +15,14 @@ IF_COUCHDB="$4"
 
 COMPOSE_FILE=docker-compose-cli.yaml
 COMPOSE_FILE_COUCH=docker-compose-couch.yaml
-export PATH=${PWD}/../bin:${PWD}:$PATH
+export PATH=${PWD}/bin:${PWD}:$PATH
 export FABRIC_CFG_PATH=${PWD}
 
-if [ ! -d bin ]; then
-	curl -sSL http://bit.ly/2ysbOFE | bash -s 1.2.0-rc1
+if [ ! -d ./bin ]; then
+	# curl -sSL http://bit.ly/2ysbOFE | bash -s 1.2.0-rc1
+        source bootstrap.sh 1.2.0-rc1 0.4.8
 fi
-exit
+
 function printHelp () {
 	echo "Usage: ./network_setup <up|down> <\$channel-name> <\$cli_timeout> <couchdb>.\nThe arguments must be in order."
 }
