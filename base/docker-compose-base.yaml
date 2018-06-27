@@ -35,14 +35,14 @@ services:
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
       - ORDERER_GENERAL_TLS_ENABLED=true # enabled TLS
+      - ORDERER_GENERAL_TLS_CLIENTAUTHREQUIRED=true # enabled Mutual TLS
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
-      - ORDERER_GENERAL_TLS_CLIENTROOTCAS=[/var/hyperledger/users/tls/ca.crt, /etc/hyperledger/fabric/admin1/tls/ca.crt, /etc/hyperledger/fabric/admin2/tls/ca.crt]
+      - ORDERER_GENERAL_TLS_CLIENTROOTCAS=[/var/hyperledger/users/tls/ca.crt]
       - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
       - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
       - ORDERER_KAFKA_VERBOSE=true
-      - ORDERER_GENERAL_TLS_CLIENTAUTHREQUIRED=true
       - ORDERER_GENERAL_TLS_CLIENTCERT_FILE=/var/hyperledger/users/tls/client.crt
       - ORDERER_GENERAL_TLS_CLIENTKEY_FILE=/var/hyperledger/users/tls/client.key
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
@@ -51,9 +51,6 @@ services:
     - ../channel-artifacts/genesis.block:/var/hyperledger/genesis/orderer.genesis.block
     - ../crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/:/var/hyperledger/orderer
     - ../crypto-config/ordererOrganizations/example.com/users/Admin@example.com/:/var/hyperledger/users
-    - ../crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com:/etc/hyperledger/fabric/admin1
-    - ../crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com:/etc/hyperledger/fabric/admin2
-
     ports:
       - 7050:7050
 
@@ -66,7 +63,6 @@ services:
       - CORE_PEER_ID=peer0.org1.example.com
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
       - CORE_PEER_CHAINCODEADDRESS=peer0.org1.example.com:7052
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
     volumes:
@@ -88,7 +84,6 @@ services:
       - CORE_PEER_ID=peer1.org1.example.com
       - CORE_PEER_ADDRESS=peer1.org1.example.com:7051
       - CORE_PEER_CHAINCODEADDRESS=peer1.org1.example.com:7052
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.example.com:7051
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
@@ -111,7 +106,6 @@ services:
       - CORE_PEER_ID=peer0.org2.example.com
       - CORE_PEER_ADDRESS=peer0.org2.example.com:7051
       - CORE_PEER_CHAINCODEADDRESS=peer0.org2.example.com:7052
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:7051
       - CORE_PEER_LOCALMSPID=Org2MSP
     volumes:
@@ -133,7 +127,6 @@ services:
       - CORE_PEER_ID=peer1.org2.example.com
       - CORE_PEER_ADDRESS=peer1.org2.example.com:7051
       - CORE_PEER_CHAINCODEADDRESS=peer1.org2.example.com:7052
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org2.example.com:7051
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:7051
       - CORE_PEER_LOCALMSPID=Org2MSP
