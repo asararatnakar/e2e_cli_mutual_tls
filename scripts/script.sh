@@ -71,10 +71,10 @@ setGlobals () {
 			CORE_PEER_ADDRESS=peer1.org2.example.com:7051
 		fi
 		CORE_PEER_TLS_CLIENTKEY_FILE=/etc/hyperledger/fabric/admin2/tls/client.key
-    CORE_PEER_TLS_CLIENTCERT_FILE=/etc/hyperledger/fabric/admin2/tls/client.crt
+                CORE_PEER_TLS_CLIENTCERT_FILE=/etc/hyperledger/fabric/admin2/tls/client.crt
 	fi
 
-	env |grep CORE
+	#env |grep CORE
 }
 
 checkOSNAvailability() {
